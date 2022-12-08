@@ -18,11 +18,11 @@ type DirEntry =
 // parse a single line from the console interaction
 let parseLine (line: string) =
     match line.Split ' ' with
-    | [| "$"; "cd"; dir |] -> Cd dir
-    | [| "$"; "ls" |] -> Ls
-    | [| "dir"; dir |] -> Dir dir
-    | [| num; filename |] -> File (int num, filename)
-    | _ -> failwith "invalid line"
+    | [| "$"; "cd"; dir |]  -> Cd dir
+    | [| "$"; "ls" |]       -> Ls
+    | [| "dir"; dir |]      -> Dir dir
+    | [| num; filename |]   -> File (int num, filename)
+    | _                     -> failwith "invalid line"
 
 // Go through the console interactions and create the filesystem structure.
 // We use a map from directory path to directory content.
