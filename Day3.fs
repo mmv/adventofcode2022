@@ -38,7 +38,7 @@ let solve1 (inputReader: unit -> string[]) =
 // The result is the sum of the priorities.
 let solve2 (inputReader: unit -> string[]) =
     inputReader ()
-    |> Seq.batchBySize 3
+    |> Seq.chunkBySize 3
     |> Seq.map (
         Seq.map Set.ofSeq
         >> Seq.reduce Set.intersect

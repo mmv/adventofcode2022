@@ -32,23 +32,6 @@ module Seq =
             if x < minv then minv <- x
             if x > maxv then maxv <- x
         (minv, maxv)
-    
-    /// split a sequence in groups of a given size
-    let batchBySize (size: int) (xs: 'a seq) =
-        seq {
-            use e = xs.GetEnumerator()
-            let mutable i = 0
-            let mutable batch = []
-            while e.MoveNext() do
-                batch <- e.Current :: batch
-                i <- i + 1
-                if i = size then
-                    yield List.rev batch
-                    i <- 0
-                    batch <- []
-            if i > 0 then
-                yield List.rev batch
-        }
 
 module Option =
     let defaultMap defaultValue mapper option =
