@@ -33,6 +33,9 @@ module Seq =
             if x > maxv then maxv <- x
         (minv, maxv)
 
+module Map =
+    let singleton k v = Map.ofList [(k,v)]
+
 module Option =
     let defaultMap defaultValue mapper option =
         option |> Option.defaultValue defaultValue |> mapper |> Some

@@ -45,7 +45,7 @@ let linesToDirEntries (lines: string list) =
                     curDir lines
             | File (num, filename) ->
                 l2e (Map.add curDir (FileEntry (num, filename) :: dirs.[curDir]) dirs) curDir lines
-    l2e ([([],[])] |> Map.ofList) [] lines
+    l2e (Map.singleton [] []) [] lines
 
 // Given the filesystem structure, calculate the size of each directory.
 // Accumulate the results in a map from directory path to size.
@@ -62,7 +62,7 @@ let dirEntriesToSizes startDir (dirEntries: Map<string list, DirEntry list>) =
             let sizes' = d2s curDir content (d2s (nextDir) (dirEntries.[nextDir]) (Map.add (nextDir) 0 sizes))
             sizes'
             |> Map.add curDir (sizes'.[nextDir] + sizes'.[curDir])
-    d2s startDir (dirEntries.[startDir]) (Map.add startDir 0 Map.empty)
+    d2s startDir (dirEntries.[startDir]) (Map.singleton startDir 0)
 
 // sum all directory sizes up to 100000
 let solve1 (inputReader: unit -> string[]) =
