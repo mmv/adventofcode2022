@@ -33,6 +33,10 @@ module Seq =
             if x > maxv then maxv <- x
         (minv, maxv)
 
+module String =
+    let split (sep: string) (s: string) =
+        s.Split(sep)
+
 module Map =
     let singleton k v = Map.ofList [(k,v)]
 
@@ -96,6 +100,21 @@ module Counter =
         |> Map.toSeq
         |> Seq.sortByDescending snd
 
+type queue<'a> = Queue of 'a list * 'a list
+module Queue =
+    let empty = Queue ([],[])
+    let isEmpty (Queue (front,back)) = front = [] && back = []
+    let enqueue (Queue (front,back)) x = Queue (front, x::back)
+    let dequeue (Queue (front,back)) =
+        match front with
+        | [] -> match List.rev back with
+                | [] -> failwith "empty queue"
+                | x::xs -> (x, Queue (xs,[]))
+        | x::xs -> (x, Queue (xs,back))
+    let append (xs: 'a seq) (q: queue<'a>) =
+        xs |> Seq.fold (fun q x -> enqueue q x) q
+    let singleton x = Queue ([], [x])
+
 let readLines (day: int) =
     let file = $"Inputs/{day}.txt"
     File.ReadAllLines file
@@ -141,3 +160,5 @@ module Tuple2 =
     let swap (x,y) = (y,x)
     let map1 f (x,y) = (f x, y)
     let map2 f (x,y) = (x, f y)
+    let join f (x,y) (x',y') = (f x x', f y y')
+    let add (x,y) (a,b) = (x+a, y+b)
